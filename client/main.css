@@ -30,7 +30,18 @@ body {
   background-color: cadetblue;
 }
 
-.turnState {
+.state {
   text-align: center;
   color: crimson;
+}
+
+.btn {
+  background-color: #4CAF50; 
+  border: none;
+  color: white;
+  padding: 14px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
 }

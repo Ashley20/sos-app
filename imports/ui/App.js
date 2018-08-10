@@ -7,7 +7,15 @@ export default class App extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {
+        this.state = this.initialState;
+
+        this.changeTurn = this.changeTurn.bind(this);
+        this.endGame = this.endGame.bind(this);
+        this.restart = this.restart.bind(this);
+    }
+
+    get initialState() {
+        return {
             // Initial counter value is 0. When it reaches up to 8 the game is over.
             counter: 0,
             // When the game ends we will set it to true
@@ -28,9 +36,6 @@ export default class App extends Component {
                 { _id: 8, content: '', selected: false}
             ]
         };
-
-        this.changeTurn = this.changeTurn.bind(this);
-        this.endGame = this.endGame.bind(this);
     }
     
     changeTurn(_id) {
@@ -105,6 +110,10 @@ export default class App extends Component {
         });
     }
 
+    restart() {
+        this.setState(this.initialState);
+    }
+
 
     renderBoxes() {
         return this.state.boxes.map((box) => (
@@ -121,10 +130,19 @@ export default class App extends Component {
               </header>
 
               {isGameEnded ? (
-                  <h1>Winner : {this.state.winner}</h1>
+                  <div>
+                    <div className="state">
+                        <h5> The game has ended.. </h5>
+                    </div>
+                    <div className="boxContainer">
+                       <h1> {this.state.winner} has win the game!!</h1>
+                       <button className="btn"  onClick={this.restart}>Restart the game </button>
+                    </div>
+                  </div>
+        
                ) : (
                 <div>
-                    <div className="turnState">
+                    <div className="state">
                         <h5> TURN :  {this.state.turn} </h5>
                     </div>
                     <div className="boxContainer">
