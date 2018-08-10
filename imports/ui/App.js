@@ -53,10 +53,11 @@ export default class App extends Component {
                 turn : newTurn,
                 counter : this.state.counter + 1,
                 boxes
+            }, () => {
+                // Check if there is a winner or is it tie??
+                this.isItSos();
             });
 
-            // Check if there is a winner 
-            this.isItSos();
         }
     }
 
@@ -95,20 +96,35 @@ export default class App extends Component {
 
     isItSos() {
         const boxes = this.state.boxes;
-    
+        let flag = '';
         if(this.isRowWinner(boxes) || this.isColumnWinner(boxes) || this.isDiagonalWinner(boxes)){
             // Now we have a winner end the game and display the winner 
-            this.endGame();
+            flag = "winner";
+            this.endGame(flag);
+        }
+        else if (this.state.counter === 9){
+            // We have no winner yet its a TIE.
+            flag = "tie";
+            this.endGame(flag);
         }
     
     }
 
-    endGame() {
+    endGame(flag) {
+        let newWinner = '';
+
+        if(flag === "winner"){
+            newWinner = this.state.turn === 'S' ? 'O' : 'S';
+        }else if(flag === "tie") {
+            newWinner = 'TIE !!!!'
+        }
+
         this.setState({
-            winner: this.state.turn,
+            winner: newWinner,
             end_of_the_game: true
         });
     }
+
 
     restart() {
         this.setState(this.initialState);
