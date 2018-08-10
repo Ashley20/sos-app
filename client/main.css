@@ -23,5 +23,14 @@ body {
   border: 1px solid black;
   float: left;
   text-align: center;
-  font-size: 22px;
+  font-size: 23px;
+}
+
+.box:hover {
+  background-color: cadetblue;
+}
+
+.turnState {
+  text-align: center;
+  color: crimson;
 }
