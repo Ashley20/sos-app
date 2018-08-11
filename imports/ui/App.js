@@ -103,7 +103,8 @@ export default class App extends Component {
             this.endGame(flag);
         }
         else if (this.state.counter === 9){
-            // We have no winner yet its a TIE.
+            // We have no winner yet its a TIE.v 
+            
             flag = "tie";
             this.endGame(flag);
         }
