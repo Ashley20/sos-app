@@ -10,6 +10,7 @@ export default class App extends Component {
         this.state = this.initialState;
 
         this.changeTurn = this.changeTurn.bind(this);
+        this.isItSos = this.isItSos.bind(this);
         this.endGame = this.endGame.bind(this);
         this.restart = this.restart.bind(this);
     }
@@ -46,17 +47,32 @@ export default class App extends Component {
             let newTurn = this.state.turn === 'S' ? 'O' : 'S';
 
             const boxes = this.state.boxes;
+
             boxes[_id].selected = true;
             boxes[_id].content = newContent;
+
 
             this.setState({ 
                 turn : newTurn,
                 counter : this.state.counter + 1,
                 boxes
             }, () => {
-                // Check if there is a winner or is it tie??
+                 // Check if there is a winner or is it tie??
                 this.isItSos();
+                
+                    if(this.state.turn === 'O' && !this.state.end_of_the_game){
+                        setTimeout(() => {
+                            do{
+                                var random  = Math.floor(Math.random()*9);
+                            }while(boxes[random].content != '');
+                            console.log(random);
+                            this.changeTurn(random);
+                        }, 2000);
+                    }
+                 
+
             });
+
 
         }
     }
@@ -103,8 +119,7 @@ export default class App extends Component {
             this.endGame(flag);
         }
         else if (this.state.counter === 9){
-            // We have no winner yet its a TIE.v 
-            
+            // We have no winner yet its a TIE.
             flag = "tie";
             this.endGame(flag);
         }
