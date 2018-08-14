@@ -26,7 +26,7 @@ export default class App extends Component {
             // S starts first all the time
             turn: 'S',
             // No winner yet
-            winner: '',
+            resultLine: '',
             boxes: [
                 { _id: 0, content: '', selected: false},
                 { _id: 1, content: '', selected: false},
@@ -66,17 +66,11 @@ export default class App extends Component {
                 switch(gameResult){
                     case 'win': 
                                 newWinner = this.state.turn === 'S' ? 'Computer' : this.props.match.params.playerName;
-                                this.setState({
-                                    winner: newWinner,
-                                    end_of_the_game: true
-                                });
+                                this.endGame(newWinner);
                                 break;
                     case 'tie':
-                                newWinner = 'TIE!!'
-                                this.setState({
-                                    winner: newWinner,
-                                    end_of_the_game: true
-                                });
+                                newWinner = 'tie';
+                                this.endGame(newWinner);
                                 break;
                     case 'continue':
                                 if(this.state.turn === 'O'){
@@ -142,17 +136,17 @@ export default class App extends Component {
         }
     }
 
-    endGame(flag) {
-        let newWinner = '';
+    endGame(winner) {
+        let resultLine = '';
 
-        if(flag === "winner"){
-            newWinner = this.state.turn === 'S' ? 'Computer' : this.props.match.params.playerName;
-        }else if(flag === "tie") {
-            newWinner = 'TIE !!!!'
+        if(winner === 'tie'){
+            resultLine = 'Game ended in a tie.'
+        }else {
+            resultLine = `${winner} has win the game`;
         }
 
         this.setState({
-            winner: newWinner,
+            resultLine: resultLine,
             end_of_the_game: true
         });
     }
@@ -183,7 +177,7 @@ export default class App extends Component {
                         <h5> The game has ended.. </h5>
                     </div>
                     <div className="boxContainer">
-                       <h1> {this.state.winner} has win the game!!</h1>
+                       <h1> {this.state.resultLine}</h1>
                        <button className="btn"  onClick={this.restart}>Restart the game </button>
                     </div>
                   </div>
