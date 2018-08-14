@@ -60,19 +60,36 @@ export default class App extends Component {
                 boxes
             }, () => {
                  // Check if there is a winner or is it tie??
-                this.isItSos();
-                
-                    if(this.state.turn === 'O' && !this.state.end_of_the_game){
-                        setTimeout(() => {
-                            do{
-                                var random  = Math.floor(Math.random()*9);
-                            }while(boxes[random].content != '');
-                            console.log(random);
-                            this.changeTurn(random);
-                        }, 2000);
-                    }
-                 
+                let gameResult = this.isItSos();
+                let newWinner = '';
 
+                switch(gameResult){
+                    case 'win': 
+                                newWinner = this.state.turn === 'S' ? 'Computer' : this.props.match.params.playerName;
+                                this.setState({
+                                    winner: newWinner,
+                                    end_of_the_game: true
+                                });
+                                break;
+                    case 'tie':
+                                newWinner = 'TIE!!'
+                                this.setState({
+                                    winner: newWinner,
+                                    end_of_the_game: true
+                                });
+                                break;
+                    case 'continue':
+                                if(this.state.turn === 'O'){
+                                    setTimeout(() => {
+                                        do{
+                                            var random  = Math.floor(Math.random()*9);
+                                        }while(boxes[random].content != '');
+                                        console.log(random);
+                                        this.changeTurn(random);
+                                    }, 2000);
+                                }
+                                
+                }
             });
 
 
@@ -114,18 +131,15 @@ export default class App extends Component {
 
     isItSos() {
         const boxes = this.state.boxes;
-        let flag = '';
         if(this.isRowWinner(boxes) || this.isColumnWinner(boxes) || this.isDiagonalWinner(boxes)){
             // Now we have a winner end the game and display the winner 
-            flag = "winner";
-            this.endGame(flag);
-        }
-        else if (this.state.counter === 9){
+            return 'win';
+        }else if (this.state.counter === 9){
             // We have no winner yet its a TIE.
-            flag = "tie";
-            this.endGame(flag);
+            return 'tie';
+        }else {
+            return 'continue';
         }
-    
     }
 
     endGame(flag) {
