@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
+const Box = (props) => {
+    return (
+        <div className="box" onClick={ () => props.handler(props.box._id) }>
+            <h1> {props.box.content} </h1>
+        </div>
+    );
+};
 
-export default class Box extends Component {
-
-    render(){
-        return(
-            <div className="box" onClick={ () => this.props.handler(this.props.box._id) }>
-                  <h1> {this.props.box.content} </h1>
-            </div>
-        );
-    }
-}
+export default Box;

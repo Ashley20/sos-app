@@ -13,6 +13,8 @@ export default class App extends Component {
         this.isItSos = this.isItSos.bind(this);
         this.endGame = this.endGame.bind(this);
         this.restart = this.restart.bind(this);
+
+        console.log(props.match.params);
     }
 
     get initialState() {
@@ -130,7 +132,7 @@ export default class App extends Component {
         let newWinner = '';
 
         if(flag === "winner"){
-            newWinner = this.state.turn === 'S' ? 'O' : 'S';
+            newWinner = this.state.turn === 'S' ? 'Computer' : this.props.match.params.playerName;
         }else if(flag === "tie") {
             newWinner = 'TIE !!!!'
         }
