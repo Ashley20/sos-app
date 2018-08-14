@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import Box from './Box.js';
+import { withStyles } from '@material-ui/core/styles';
 
+const styles = theme => ({
+    paper: {
+      padding: theme.spacing.unit * 2,
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
 
-export default class App extends Component {
+    button: {
+      margin: theme.spacing.unit*5,
+    },
+  });
+
+class App extends Component {
 
     constructor(props) {
         super(props)
@@ -165,6 +179,7 @@ export default class App extends Component {
 
     render() {
         const isGameEnded = this.state.end_of_the_game;
+        const { classes } = this.props;
         return (
             <div className="container">
               <header>
@@ -172,14 +187,17 @@ export default class App extends Component {
               </header>
 
               {isGameEnded ? (
-                  <div>
-                    <div className="state">
-                        <h5> The game has ended.. </h5>
-                    </div>
-                    <div className="boxContainer">
-                       <h1> {this.state.resultLine}</h1>
-                       <button className="btn"  onClick={this.restart}>Restart the game </button>
-                    </div>
+                  <div className="boxContainer">
+                    <Paper className={classes.paper}>
+                        <h2>{this.state.resultLine}</h2>
+                        <Button 
+                            variant="outlined" 
+                            color="primary"
+                            onClick={this.restart}
+                            className={classes.button} >
+                                    Restart the game
+                        </Button>
+                    </Paper>
                   </div>
         
                ) : (
@@ -197,3 +215,5 @@ export default class App extends Component {
         );
     }
 }
+
+export default withStyles(styles) (App);
