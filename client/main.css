@@ -2,17 +2,13 @@
 header {
   text-align: center;
   font-style: italic;
-  color: aqua;
+  color: darkblue;
 }
 
 
 body {
   padding: 10px;
   font-family: sans-serif;
-}
-
-.form {
-  
 }
 
 .boxContainer {

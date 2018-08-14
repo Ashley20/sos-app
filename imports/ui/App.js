@@ -37,6 +37,8 @@ class App extends Component {
             counter: 0,
             // When the game ends we will set it to true
             end_of_the_game: false,
+            // Game will be locked while the computer makes its move
+            game_is_locked: false,
             // S starts first all the time
             turn: 'S',
             // No winner yet
@@ -56,6 +58,8 @@ class App extends Component {
     }
     
     changeTurn(_id) {
+
+        if(this.state.end_of_the_game || this.state.game_is_locked) return;
 
         if(!this.state.boxes[_id].selected) {
 
@@ -88,11 +92,14 @@ class App extends Component {
                                 break;
                     case 'continue':
                                 if(this.state.turn === 'O'){
+                                    this.state.game_is_locked = true;
+
                                     setTimeout(() => {
                                         do{
                                             var random  = Math.floor(Math.random()*9);
                                         }while(boxes[random].content != '');
-                                        console.log(random);
+                                        this.state.game_is_locked = false;
+
                                         this.changeTurn(random);
                                     }, 2000);
                                 }
@@ -201,14 +208,14 @@ class App extends Component {
                   </div>
         
                ) : (
-                <div>
-                    <div className="state">
-                        <h5> TURN :  {this.state.turn} </h5>
-                    </div>
-                    <div className="boxContainer">
+                <Paper className={classes.paper}>
+                   <div className="state">
+                        <h5> Next  :  {this.state.turn} </h5>
+                   </div>
+                   <div className="boxContainer">
                         { this.renderBoxes() }
-                    </div>
-                </div>
+                   </div>
+                </Paper>
                )}
 
             </div>
